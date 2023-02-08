@@ -53,7 +53,7 @@ export function Settings() {
      
       <Footer>
         <FooterText>
-          Version 1.1.5
+          Version 1.1.8
         </FooterText>
       </Footer>
     </Container>

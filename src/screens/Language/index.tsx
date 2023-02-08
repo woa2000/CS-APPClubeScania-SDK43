@@ -56,7 +56,7 @@ export function Language() {
      
       <Footer>
         <FooterText>
-          Version 1.1.4
+          Version 1.1.8
         </FooterText>
       </Footer>
     </Container>
