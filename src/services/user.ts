@@ -21,6 +21,20 @@ export function editProfileImage(userId: string, image: any) {
   })
 }
 
+export function removeProfile(userId: string) {
+  return new Promise(resolve => {
+    api.post(`auth/Remove?UserId=${userId}`)
+    .then((response) => {
+      resolve({success: true})
+    })
+    .catch((err) => {
+      console.log(err.response);
+      console.error("Ops! ocorreu um erro" + err);
+    });
+  })
+}
+
+
 export function editLanguage(userId: string | undefined,  language: string) {
   return new Promise(resolve => {
     api.put(`auth/EditLanguage?userId=${userId}&language=${language}`)

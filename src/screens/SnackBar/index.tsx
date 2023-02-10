@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import { useNavigation } from '@react-navigation/native'
 import { Feather } from '@expo/vector-icons'
 import { Dimensions } from 'react-native'
@@ -69,7 +69,7 @@ export function SnackBar() {
   
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -128,7 +128,7 @@ export function SnackBar() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
         {
           dishOfDay ? (
             <BannerPromotion 
@@ -204,7 +204,7 @@ export function SnackBar() {
             }
           </Content>
         </ContainerHours>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </Container>
   )
 }

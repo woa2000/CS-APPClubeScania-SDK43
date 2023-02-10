@@ -61,7 +61,7 @@ export function BannerActivity({ icon, urlImage, title, showFavorite = true, sho
 			
 				<View>
 					{
-						title.length > 250 ? (
+						title?.length > 250 ? (
 							<Text style={styles.title}>
 								{title.substring(0, 250)}...
 							</Text>

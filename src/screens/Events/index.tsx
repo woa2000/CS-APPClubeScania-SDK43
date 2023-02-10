@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 
 import { 
   View,
@@ -58,7 +58,7 @@ export function Events() {
 
   return (
     <ScrollView style={styles.container}>    
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -117,7 +117,7 @@ export function Events() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
       <BannerActivity 
         urlImage="https://images.unsplash.com/photo-1440186347098-386b7459ad6b"
         title={t("Eventos")}
@@ -188,7 +188,7 @@ export function Events() {
           ))
         }
       </ScrollView>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </ScrollView>
   )
 }

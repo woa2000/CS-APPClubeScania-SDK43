@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import { useNavigation } from '@react-navigation/native'
 import { Feather } from '@expo/vector-icons'
 import { StatusBar } from 'expo-status-bar'
@@ -70,7 +70,7 @@ export function Home() {
         backgroundColor="#FFF"
       />
       
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -122,7 +122,7 @@ export function Home() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
         <ScrollView
           horizontal
           pagingEnabled
@@ -244,7 +244,7 @@ export function Home() {
           </ScrollView>
         </View>
         
-      </SkeletonContent> 
+      {/* </SkeletonContent>  */}
     </ScrollView>
   )
 }

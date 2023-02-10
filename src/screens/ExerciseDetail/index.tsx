@@ -14,7 +14,7 @@ import {
 
 import * as academyService from '../../services/academy'
 import { ExerciseDetailProps } from '../../interfaces/interfaces'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 
 import { useTranslation } from 'react-i18next';
 import { useTrasnlactionDynamic } from '../../languages/translateDB';
@@ -48,7 +48,7 @@ export function ExerciseDetail() {
 
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -95,7 +95,7 @@ export function ExerciseDetail() {
             marginBottom: 5 
           },
         ]}
-      >
+      > */}
         <VideoContainer>
           <WebView
             style={{
@@ -122,7 +122,7 @@ export function ExerciseDetail() {
             {td(exercise.description, exercise.description_EN)}
           </Description>
         </Content>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </Container>
   )
 }

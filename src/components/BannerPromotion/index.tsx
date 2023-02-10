@@ -54,7 +54,7 @@ export function BannerPromotion({
         </View>
         <View>
           {
-            title.length > 250 ? (
+            title?.length > 250 ? (
               <Text style={styles.title}>
                 {title.substring(0, 250)}...
               </Text>

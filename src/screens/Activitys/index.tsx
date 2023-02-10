@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 
 import { 
   View,
@@ -61,7 +61,7 @@ export function Activitys() {
 
   return (
     <ScrollView style={styles.container}>    
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -120,7 +120,7 @@ export function Activitys() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
       <BannerActivity 
         urlImage="https://scania-clube.azurewebsites.net/img/atividades.jpg"
         title={t("Atividades")} 
@@ -188,7 +188,7 @@ export function Activitys() {
           ))
         }
       </ScrollView>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </ScrollView>
   )
 }

@@ -14,7 +14,7 @@ import {
 import * as snackBarService from '../../services/snackBar'
 import { DishOfDayProps, SnackBarItem } from '../../interfaces/interfaces'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import { Dimensions } from 'react-native'
 import { useAuth } from '../../contexts/auth'
 
@@ -59,7 +59,7 @@ export function Snack() {
   
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -107,7 +107,7 @@ export function Snack() {
             borderRadius: 40 
           }
         ]}
-      >
+      > */}
         <Content key={snack.id}>
           <BannerPromotion
             urlImage={fileServer + snack.image}
@@ -134,7 +134,7 @@ export function Snack() {
             />
           </ContainerInfo>
         </Content>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </Container>
   )
 }

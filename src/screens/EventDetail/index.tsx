@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import { Dimensions, View } from 'react-native'
 
 import {
@@ -146,7 +146,7 @@ export function EventDetail() {
 
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -194,7 +194,7 @@ export function EventDetail() {
             borderRadius: 40
           }
         ]}
-      >
+      > */}
         <View key={event.id}>
           <BannerPromotion
             urlImage={fileServer + event.image}
@@ -285,7 +285,7 @@ export function EventDetail() {
             />
           </Information>
         </View>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </Container>
   )
 }

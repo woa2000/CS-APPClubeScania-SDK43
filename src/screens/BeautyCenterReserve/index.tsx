@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import CalendarStrip from 'react-native-calendar-strip'
 import { Alert, Dimensions } from 'react-native'
 import { Feather } from '@expo/vector-icons'
@@ -171,7 +171,7 @@ export function BeautyCenterReserve() {
 
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -213,7 +213,7 @@ export function BeautyCenterReserve() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
         <Content>
           <BannerActivity 
             urlImage={fileServer + activity.image}
@@ -291,7 +291,7 @@ export function BeautyCenterReserve() {
             } 
           </Hours>
         </Content>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
 
       <AlertCustom 
         visible={visible}

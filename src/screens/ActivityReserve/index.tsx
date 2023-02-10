@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import SkeletonContent from 'react-native-skeleton-content'
+//import SkeletonContent from 'react-native-skeleton-content'
 import CalendarStrip from 'react-native-calendar-strip'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
@@ -186,7 +186,7 @@ export function ActivityReserve() {
   
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -228,7 +228,7 @@ export function ActivityReserve() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
         <ScrollView>
           <BannerActivity 
             urlImage={fileServer + activity.image}
@@ -294,7 +294,7 @@ export function ActivityReserve() {
             } 
           </Hours>
         </ScrollView>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
 
       <AlertCustom 
         visible={visible}

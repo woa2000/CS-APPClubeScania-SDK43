@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import SkeletonContent from 'react-native-skeleton-content';
+// import SkeletonContent from 'react-native-skeleton-content';
 import { Dimensions, ScrollView } from 'react-native';
 
 import { BannerPromotion } from '../../components/BannerPromotion';
@@ -57,7 +57,7 @@ export function OtherActivitiesWithoutAppointments() {
   
   return (
     <Container>
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -99,7 +99,7 @@ export function OtherActivitiesWithoutAppointments() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
         <ScrollView>
           <BannerPromotion 
             title={td(activity.description, activity.description_EN)}
@@ -123,7 +123,7 @@ export function OtherActivitiesWithoutAppointments() {
             />
           </Content>
         </ScrollView>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </Container>
   );
 }

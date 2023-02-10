@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import SkeletonContent from 'react-native-skeleton-content'
+// import SkeletonContent from 'react-native-skeleton-content'
 import { useNavigation } from '@react-navigation/native'
 
 import { 
@@ -62,7 +62,7 @@ export function SnackBarItems() {
 
   return (
     <ScrollView style={styles.container}>    
-      <SkeletonContent
+      {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
         animationDirection="horizontalRight"
         isLoading={loading}
@@ -89,7 +89,7 @@ export function SnackBarItems() {
             borderRadius: 10 
           }
         ]}
-      >
+      > */}
       <BannerActivity 
         urlImage="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg"
         title={t("Lanchonete")}
@@ -133,7 +133,7 @@ export function SnackBarItems() {
         ))
       }
       </View>
-      </SkeletonContent>
+      {/* </SkeletonContent> */}
     </ScrollView>
   )
 }
