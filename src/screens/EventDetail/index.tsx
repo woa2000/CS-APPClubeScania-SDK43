@@ -213,7 +213,7 @@ export function EventDetail() {
               {td(event.description, event.description_EN)}
             </Description>
 
-            <Vacancys style={{ fontSize: 14 }}>
+            {/* <Vacancys style={{ fontSize: 14 }}>
               {t("Vagas Disponíveis")}
             </Vacancys>
             <Vacancys>
@@ -282,7 +282,7 @@ export function EventDetail() {
             <ButtonStandard
               title={t("Eu quero")}
               onPress={() => handleReserveEvent()}
-            />
+            /> */}
           </Information>
         </View>
       {/* </SkeletonContent> */}
