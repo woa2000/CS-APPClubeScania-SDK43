@@ -143,12 +143,26 @@ export function Activitys() {
                   key={item.id}
                   name={td(item.description, item.description_EN)}
                   urlImage={fileServer + item.image}
-                  onPress={() => navigation.navigate('ActivityReserve', 
-                    {
-                      id: item.id, 
-                      title: item.description
+                  onPress={() => {
+                    if(item.needAppointments === false) {
+                      navigation.navigate('OtherActivitiesWithoutAppointments', { 
+                        id: item.id, 
+                        title: td(item.description, item.description_EN),
+                        subtitle: td(item.detailActivities?.subtitle as string, item.detailActivities?.subtitle_EN as string),
+                        description: td(item.detailActivities?.description as string, item.detailActivities?.description_EN as string)
+                      })
+                    } else {
+                      navigation.navigate('ActivityReserve', { 
+                        id: item.id, title: td(item.description, item.description_EN) 
+                      })
                     }
-                  )}
+                  }}
+                  // onPress={() => navigation.navigate('ActivityReserve', 
+                  //   {
+                  //     id: item.id, 
+                  //     title: item.description
+                  //   }
+                  // )}
                 />
               ))
             }
@@ -183,7 +197,21 @@ export function Activitys() {
               key={item.id}
               title={td(item.description, item.description_EN)}
               urlImage={fileServer + item.image}
-              onPress={() => navigation.navigate('ActivityReserve', {id: item.id, title: item.description})}
+              onPress={() => {
+                if(item.needAppointments === false) {
+                  navigation.navigate('OtherActivitiesWithoutAppointments', { 
+                    id: item.id, 
+                    title: td(item.description, item.description_EN),
+                    subtitle: td(item.detailActivities?.subtitle as string, item.detailActivities?.subtitle_EN as string),
+                    description: td(item.detailActivities?.description as string, item.detailActivities?.description_EN as string)
+                  })
+                } else {
+                  navigation.navigate('ActivityReserve', { 
+                    id: item.id, title: td(item.description, item.description_EN) 
+                  })
+                }
+              }}
+              // onPress={() => navigation.navigate('ActivityReserve', {id: item.id, title: item.description})}
             />
           ))
         }

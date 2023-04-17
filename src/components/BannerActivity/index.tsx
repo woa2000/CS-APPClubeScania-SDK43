@@ -49,10 +49,11 @@ export function BannerActivity({ icon, urlImage, title, showFavorite = true, sho
 				{
 					showIcon ? (
 						<View style={styles.contentIcon}>
-							<Image 
+							{/* <Image 
 								uri={'https://img.icons8.com/color/480/scania.png'}
 								style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }} 
-							/>
+							/> */}
+							<FontAwesome name="compass" size={40} color="#d97d54" />
 						</View>
 					) : (
 						<View />
