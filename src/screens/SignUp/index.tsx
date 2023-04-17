@@ -5,6 +5,8 @@ import {
 	ScrollView,
 	View,
 	Alert,
+	Text,
+	Linking,
 } from 'react-native'
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 import { useNavigation } from '@react-navigation/native'
@@ -46,9 +48,11 @@ export function SignUp() {
 	const navigation = useNavigation()
 	const [isVisible, setIsVisible] = useState(false)
 	const [alertTitle, setAlertTitle] = useState('')
-  const [alertMessage, setAlertMessage] = useState('')
+  	const [alertMessage, setAlertMessage] = useState('')
 	
 	const { singIn } = useAuth()
+
+	const termURL = 'https://scania-clube.azurewebsites.net/policy/declaracao_de_privacidade_APP.html';
 
 	const RegisterSchema = Yup.object().shape({
 		cpf: Yup.string()
@@ -216,7 +220,7 @@ export function SignUp() {
 									/>
 							
 									<Terms>
-										Eu li e aceito os termos de uso e as políticas de privacidade.
+										Eu li e aceito os <Text style={{ color: 'blue', textDecorationLine: 'underline' }} onPress={() => Linking.openURL(termURL)}>termos de uso e as políticas de privacidade.</Text>
 									</Terms>
 								</View>
 								{

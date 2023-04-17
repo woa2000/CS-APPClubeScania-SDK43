@@ -15,6 +15,9 @@ import * as activityService from '../../services/activity'
 import { useTranslation } from 'react-i18next';
 import { useTrasnlactionDynamic } from '../../languages/translateDB';
 
+import RenderHtml from 'react-native-render-html';
+
+
 
 import {
   Container,
@@ -26,13 +29,13 @@ import {
 export function OtherActivitiesWithoutAppointments() {
   const [loading, setLoading] = useState(true)
   const [activity, setActivity] = useState<Activity>({} as Activity)
-
+  const [source, setSource] = useState({html: ''} as any);
   const {fileServer, setTitleHeader, user} = useAuth()
   const navigation = useNavigation();
   const route = useRoute()
   const params = route.params as Activity;
 
-   const {t, i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
   const tDynamic = useTrasnlactionDynamic;
   const td = (pt : string, en: string) => {
     let lang = i18n.language;
@@ -51,11 +54,12 @@ export function OtherActivitiesWithoutAppointments() {
 
   useEffect(() => {
     setTitleHeader(params.description as string)
+    setSource({html: td(params.description, params.description_EN)})
     loadActivity(params.id as string)
       .then(() => setLoading(false))
   }, [])
-  
   return (
+    
     <Container>
       {/* <SkeletonContent
         containerStyle={{ flex: 1, width: '100%', height: '100%' }}
@@ -114,7 +118,10 @@ export function OtherActivitiesWithoutAppointments() {
               {t("Informações")}
             </Title>
             <Description>
-              {params.description}
+              <RenderHtml 
+                contentWidth={100}
+                source={source}
+              />
             </Description>
 
             <ButtonStandard

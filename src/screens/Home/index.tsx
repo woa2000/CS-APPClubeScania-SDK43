@@ -8,7 +8,8 @@ import {
   View, 
   Text, 
   TouchableOpacity, 
-  Dimensions 
+  Dimensions,
+  Linking 
 } from 'react-native'
 
 import { Banner, Event, LikedActivity } from '../../interfaces/interfaces'
@@ -34,12 +35,14 @@ export function Home() {
   const [likedActivities, setLikedActivities] = useState<LikedActivity[]>({} as LikedActivity[]);
   const [events, setEvents] = useState<Event[]>([] as Event[]);
 
-   const {t, i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
   const tDynamic = useTrasnlactionDynamic;
   const td = (pt : string, en: string) => {
     let lang = i18n.language;
     return tDynamic(pt, en, lang);
   };
+
+  const supportedURL = 'https://forms.office.com/pages/responsepage.aspx?id=5GLAO52sF0y03TqtY3_xrJpm7yFIdb1IlQd6R2c_EQ5UMEIwQlhCUE9aQzVWSVA0QjVJOUFBVkVEMy4u';
 
 
   async function loadHome(){
@@ -198,12 +201,17 @@ export function Home() {
               { type: '2', title: 'Quadras' })
             }
           />
-          <Category
+          {/* <Category
             urlImage={'https://scania-clube.azurewebsites.net/img/quiosques.jpg'}
             title={t('Quiosques')}
             onPress={() => navigation.navigate('Kiosks', 
               { type: '4', title: 'Quiosques' })
             }
+          /> */}
+          <Category
+            urlImage={'https://scania-clube.azurewebsites.net/img/quiosques.jpg'}
+            title={t('Quiosques')}
+            onPress={() => Linking.openURL(supportedURL)}
           />
 
           <Category

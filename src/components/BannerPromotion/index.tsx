@@ -11,6 +11,8 @@ import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import { ButtonBack } from '../ButtonBack'
 import { useNavigation } from '@react-navigation/native'
 
+import FontAwesome from '@expo/vector-icons/FontAwesome';
+
 type Props = TouchableOpacityProps & {
   urlImage: string,
   title: string,
@@ -47,10 +49,11 @@ export function BannerPromotion({
       }
       <BlurView intensity={90} tint="dark" style={styles.content}>
         <View style={styles.contentIcon}>
-          <Image 
+          {/* <Image 
             uri={'https://img.icons8.com/color/480/scania.png'}
             style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center' }} 
-          />
+          /> */}
+          <FontAwesome name="compass" size={70} color="#d97d54" />
         </View>
         <View>
           {
