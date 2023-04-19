@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 // import SkeletonContent from 'react-native-skeleton-content'
 
-import { 
+import {
   View,
   Text,
   ScrollView,
@@ -32,9 +32,9 @@ export function BeautyCenter() {
   const [activities, setActivities] = useState<Activity[]>({} as Activity[])
   const [lastReservations, setLastReservations] = useState<Activity[]>({} as Activity[])
 
-   const {t, i18n} = useTranslation();
+  const { t, i18n } = useTranslation();
   const tDynamic = useTrasnlactionDynamic;
-  const td = (pt : string, en: string) => {
+  const td = (pt: string, en: string) => {
     let lang = i18n.language;
     return tDynamic(pt, en, lang);
   };
@@ -59,7 +59,7 @@ export function BeautyCenter() {
   useEffect(() => {
     const params = route.params as NavigationParams
     loadActivities(params.type as string)
-    .then(() => setLoading(false))
+      .then(() => setLoading(false))
   }, [])
 
   return (
@@ -124,7 +124,7 @@ export function BeautyCenter() {
           }
         ]}
       > */}
-      <BannerActivity 
+      <BannerActivity
         title={t("Centro Estético")}
         urlImage="https://scania-clube.azurewebsites.net/img/centro-estetico.jpg"
         showFavorite={false}
@@ -135,65 +135,94 @@ export function BeautyCenter() {
           <View style={styles.titleAndButton}>
             <Text style={styles.title}>{t("Últimas reservas")}</Text>
           </View>
-          <ScrollView 
+          <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingRight: 20 }}
           >
-          {
-            lastReservations.length > 0 &&  
-            lastReservations.map(item => (
-              <Card 
-                key={item.id}
-                name={td(item.description, item.description_EN)}
-                urlImage={fileServer + item.image}
-                onPress={() => navigation.navigate('ActivityReserve', 
-                  { 
-                    id: item.id, 
-                    title: td(item.description, item.description_EN),
+            {
+              lastReservations.length > 0 &&
+              lastReservations.map(item => (
+                <Card
+                  key={item.id}
+                  name={td(item.description, item.description_EN)}
+                  urlImage={fileServer + item.image}
+                  onPress={() => {
+                    if (item.needAppointments === false) {
+                        navigation.navigate('OtherActivitiesWithoutAppointments', {
+                          id: item.id,
+                          title: td(item.description, item.description_EN),
+                          subtitle: td(item.detailActivities?.subtitle as string, item.detailActivities?.subtitle_EN as string),
+                          description: td(item.detailActivities?.description as string, item.detailActivities?.description_EN as string)
+                        })
+                      } else {
+                        navigation.navigate('ActivityReserve', {
+                          id: item.id, title: td(item.description, item.description_EN)
+                        })
+                      }
+                    }
+                    // navigation.navigate('ActivityReserve', 
+                    // { 
+                    //   id: item.id, 
+                    //   title: td(item.description, item.description_EN),
+                    // }
+                    //  )
                   }
-                )}
-              />
-            ))
-          }
+                />
+              ))
+            }
           </ScrollView>
         </View>
 
         <View style={styles.contentSearch}>
-          <SeachBar 
+          <SeachBar
             placeholder={t("Procurar procedimentos")}
             value={searchText}
             onChangeText={setSearchText}
           />
         </View>
-          
+
         <ScrollView
           showsVerticalScrollIndicator={false}
         >
-          {           
+          {
             activities.length > 0 &&
             activities
-            .filter((item) => {
-              if(searchText === "")
-              {
-                return item
-              }else if (item.description.toLowerCase().includes(searchText.toLowerCase()))
-              {
-                return item
-              }
-          })
-          .map(item => (
-            <Category
-              key={item.id}
-              title={td(item.description, item.description_EN)}
-              urlImage={fileServer + item.image}
-              onPress={() => navigation.navigate('SelectProfessional', {
-                id: item.id, 
-                title: td(item.description, item.description_EN)
-              })}
-            />
-          ))
-        }
+              .filter((item) => {
+                if (searchText === "") {
+                  return item
+                } else if (item.description.toLowerCase().includes(searchText.toLowerCase())) {
+                  return item
+                }
+              })
+              .map(item => (
+                <Category
+                  key={item.id}
+                  title={td(item.description, item.description_EN)}
+                  urlImage={fileServer + item.image}
+                  onPress={() => 
+                    {
+                      if (item.needAppointments === false) {
+                          navigation.navigate('OtherActivitiesWithoutAppointments', {
+                            id: item.id,
+                            title: td(item.description, item.description_EN),
+                            subtitle: td(item.detailActivities?.subtitle as string, item.detailActivities?.subtitle_EN as string),
+                            description: td(item.detailActivities?.description as string, item.detailActivities?.description_EN as string)
+                          })
+                        } else {
+                          navigation.navigate('SelectProfessional', {
+                            id: item.id, title: td(item.description, item.description_EN)
+                          })
+                        }
+                      }
+                  //   navigation.navigate('SelectProfessional', {
+                  //   id: item.id,
+                  //   title: td(item.description, item.description_EN)
+                  // })
+                  }
+                />
+              ))
+          }
         </ScrollView>
       </View>
       {/* </SkeletonContent> */}
