@@ -37,6 +37,7 @@ export function EventDetail() {
   const params = route.params as NavigationParams
   const [loading, setLoading] = useState(true)
   const [totalValue, setTotalValue] = useState(0.00)
+  const [ticketTypeValue, setTicketTypeValue] = useState<Array<{ id: string; quantidade: number; }>>([])
   const [associateAdultValue, setAssociateAdultValue] = useState(0)
   const [associateChildValue, setAssociateChildValue] = useState(0)
   const [notAssociateAdultValue, setNotAssociateAdultValue] = useState(0)
@@ -68,6 +69,7 @@ export function EventDetail() {
       const response = await eventService.getEvent(id)
       setEvent(response as EventDetailProps)
       changeDate(response.startEvent)
+      console.log('Evento =>', response as EventDetailProps)
     }
     catch (error) {
       console.error('erro -> ', error)
@@ -125,10 +127,24 @@ export function EventDetail() {
     })
   }
 
+  async function handleUpdateTicketTypeValue() {
+
+  }
+
   useEffect(() => {
     loadEvents(params.id as string)
       .then(() => {
         setLoading(false);
+
+        if (event.eventsTicketTypes) {
+          const initialStates = event.eventsTicketTypes?.map(objeto => ({
+            id: objeto.id,
+            quantidade: 0
+          }));
+
+          setTicketTypeValue(initialStates);
+        }
+
         sumTotal();
       })
   }, [
@@ -213,59 +229,23 @@ export function EventDetail() {
               {td(event.description, event.description_EN)}
             </Description>
 
-            {/* <Vacancys style={{ fontSize: 14 }}>
-              {t("Vagas Disponíveis")}
+            <Vacancys style={{ fontSize: 14 }}>
+              {t("Vagas restantes")}
             </Vacancys>
             <Vacancys>
-              {event.remainingVacancies}
+              0 / {event.totalRemainingVacancies}
             </Vacancys>
 
             {
-              event.associateAdult ? (
+              event.eventsTicketTypes?.map((eventsTicketType, index) => (
                 <ItemGroupReserve
-                  title={t("Associado Adulto")}
-                  price={event.costAssociateAdult}
-                  vacancy={event.remainingVacancies}
+                  title={td(eventsTicketType.ticketType?.description ?? '', eventsTicketType.ticketType?.description_EN ?? '')}
+                  price={eventsTicketType.cost}
+                  vacancy={eventsTicketType.remainingVacancies}
                   value={associateAdultValue}
-                  onChangeValue={setAssociateAdultValue}
+                  onChangeValue={handleUpdateTicketTypeValue}
                 />
-              ) : null
-            }
-
-            {
-              event.associateChild ? (
-                <ItemGroupReserve
-                  title={t("Associado Infantil")}
-                  price={event.costAssociateChild}
-                  vacancy={event.remainingVacancies}
-                  value={associateChildValue}
-                  onChangeValue={setAssociateChildValue}
-                />
-              ) : null
-            }
-
-            {
-              event.adult ? (
-                <ItemGroupReserve
-                  title={t("Adulto")}
-                  price={event.costAdult}
-                  vacancy={event.remainingVacancies}
-                  value={notAssociateAdultValue}
-                  onChangeValue={setNotAssociateAdultValue}
-                />
-              ) : null
-            }
-
-            {
-              event.child ? (
-                <ItemGroupReserve
-                  title={t("Infantil")}
-                  price={event.costChild}
-                  vacancy={event.remainingVacancies}
-                  value={notAssociateChildValue}
-                  onChangeValue={setNotAssociateChildValue}
-                />
-              ) : null
+              ))
             }
 
             <Line />
@@ -282,7 +262,7 @@ export function EventDetail() {
             <ButtonStandard
               title={t("Eu quero")}
               onPress={() => handleReserveEvent()}
-            /> */}
+            />
           </Information>
         </View>
       {/* </SkeletonContent> */}

@@ -219,6 +219,7 @@ interface EventDetailProps {
   description_EN: string,
   vacancies: number,
   remainingVacancies: number,
+  totalRemainingVacancies: number,
   associateAdult: boolean,
   associateChild: boolean,
   adult: boolean,
@@ -231,9 +232,25 @@ interface EventDetailProps {
   hasRg: boolean,
   hasBirthDate: boolean,
   hasCellphone: boolean,
-  hasRegister: boolean
+  hasRegister: boolean,
+  eventsTicketTypes: EventsTicketTypesProps[] | undefined
 }
 
+interface EventsTicketTypesProps {
+  id: string,
+  cost: number,
+  filledVacancies: number,
+  quantity: number,
+  quantityVacancies: number,
+  remainingVacancies: number,
+  ticketType: TicketTypeProps | undefined
+}
+
+interface TicketTypeProps {
+  id: string,
+  description: string,
+  description_EN: string
+}
 
 interface SnackBarProps {
   id: string,
