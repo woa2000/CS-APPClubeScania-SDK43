@@ -29,7 +29,8 @@ export function ItemGroupReserve({
       <Container>
         <View>
           <Price>{ title }</Price>
-          <Price>{ price > 0 ? `R$ ${price.toFixed(2)}` : 'GRATUITO'}</Price>
+          <Price>{ price > 0 ? `R$ ${price.toFixed(2)}` : 'GRATUITO' }</Price>
+          <Price>{ value } / { vacancy }</Price>
         </View>
         <InputSpinner
           min={0}

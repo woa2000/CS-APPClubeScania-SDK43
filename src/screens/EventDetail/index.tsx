@@ -29,6 +29,14 @@ import { useAuth } from '../../contexts/auth'
 import { useTranslation } from 'react-i18next';
 import { useTrasnlactionDynamic } from '../../languages/translateDB';
 
+interface EventTicketTypesProps {
+  id: string
+  quantity: number
+  cost: number
+  remainingVacancies: number
+  description: string
+  description_EN: string
+}
 
 export function EventDetail() {
   const route = useRoute()
@@ -37,11 +45,8 @@ export function EventDetail() {
   const params = route.params as NavigationParams
   const [loading, setLoading] = useState(true)
   const [totalValue, setTotalValue] = useState(0.00)
-  const [ticketTypeValue, setTicketTypeValue] = useState<Array<{ id: string; quantidade: number; }>>([])
-  const [associateAdultValue, setAssociateAdultValue] = useState(0)
-  const [associateChildValue, setAssociateChildValue] = useState(0)
-  const [notAssociateAdultValue, setNotAssociateAdultValue] = useState(0)
-  const [notAssociateChildValue, setNotAssociateChildValue] = useState(0)
+  const [totalFilledVacancies, setTotalFilledVacancies] = useState(0)
+  const [eventTicketTypes, setEventTicketTypes] = useState<EventTicketTypesProps[]>([] as EventTicketTypesProps[])
   const [event, setEvent] = useState<EventDetailProps>({} as EventDetailProps)
   const [eventDate, setEventDate] = useState('')
 
@@ -67,9 +72,25 @@ export function EventDetail() {
   async function loadEvents(id: string) {
     try {
       const response = await eventService.getEvent(id)
-      setEvent(response as EventDetailProps)
+
+      setEvent(() => { 
+        var newState = response as EventDetailProps
+
+        if (newState.eventsTicketTypes) {
+          setEventTicketTypes([...newState.eventsTicketTypes.map(obj => ({
+            id: obj.id,
+            quantity: 0,
+            cost: obj.cost,
+            remainingVacancies: obj.remainingVacancies,
+            description: obj.ticketType?.description,
+            description_EN: obj.ticketType?.description_EN
+          })) as EventTicketTypesProps[]])
+        }
+
+        return newState
+      })
+
       changeDate(response.startEvent)
-      console.log('Evento =>', response as EventDetailProps)
     }
     catch (error) {
       console.error('erro -> ', error)
@@ -79,10 +100,7 @@ export function EventDetail() {
   async function sumTotal() {
     if (event?.id !== undefined) {
       setTotalValue(
-        associateAdultValue * event.costAssociateAdult +
-        associateChildValue * event.costAssociateChild +
-        notAssociateAdultValue * event.costAdult +
-        notAssociateChildValue * event.costChild
+        eventTicketTypes?.reduce((previous, current) => previous + (current.quantity * current.cost), 0) ?? 0
       )
     }
   }
@@ -93,32 +111,15 @@ export function EventDetail() {
       title: event.title,
       subtitle: event.subTitle,
       date: eventDate,
-      forms: [
-        {
-          id: '1',
-          type: 0,
-          title: t('Associado Adulto'),
-          value: associateAdultValue
-        },
-        {
-          id: '2',
-          type: 1,
-          title: t('Associado Infantil'),
-          value: associateChildValue
-        },
-        {
-          id: '3',
-          type: 2,
-          title: t('Adulto'),
-          value: notAssociateAdultValue
-        },
-        {
-          id: '4',
-          type: 3,
-          title: t('Infantil'),
-          value: notAssociateChildValue
-        }
-      ],
+      // forms: [
+      //   {
+      //     id: '1',
+      //     type: 0,
+      //     title: t('Associado Adulto'),
+      //     value: associateAdultValue
+      //   }
+      // ],
+      forms: eventTicketTypes,
       hasName: event.hasName,
       hasRg: event.hasRg,
       hasBirthDate: event.hasBirthDate,
@@ -127,38 +128,17 @@ export function EventDetail() {
     })
   }
 
-  async function handleUpdateTicketTypeValue() {
-
-  }
-
   useEffect(() => {
     loadEvents(params.id as string)
       .then(() => {
-        setLoading(false);
-
-        if (event.eventsTicketTypes) {
-          const initialStates = event.eventsTicketTypes?.map(objeto => ({
-            id: objeto.id,
-            quantidade: 0
-          }));
-
-          setTicketTypeValue(initialStates);
-        }
-
-        sumTotal();
+        setLoading(false)
+        sumTotal()
       })
-  }, [
-
-  ])
+  }, [])
 
   useEffect(() => {
     sumTotal()
-  }, [
-    associateAdultValue,
-    associateChildValue,
-    notAssociateAdultValue,
-    notAssociateChildValue,
-  ])
+  }, [eventTicketTypes])
 
   return (
     <Container>
@@ -233,17 +213,22 @@ export function EventDetail() {
               {t("Vagas restantes")}
             </Vacancys>
             <Vacancys>
-              0 / {event.totalRemainingVacancies}
+              {totalFilledVacancies} / {event.totalRemainingVacancies}
             </Vacancys>
 
             {
-              event.eventsTicketTypes?.map((eventsTicketType, index) => (
+              eventTicketTypes?.map((eventTicketType) => (
                 <ItemGroupReserve
-                  title={td(eventsTicketType.ticketType?.description ?? '', eventsTicketType.ticketType?.description_EN ?? '')}
-                  price={eventsTicketType.cost}
-                  vacancy={eventsTicketType.remainingVacancies}
-                  value={associateAdultValue}
-                  onChangeValue={handleUpdateTicketTypeValue}
+                  key={eventTicketType.id}
+                  title={td(eventTicketType.description ?? '', eventTicketType.description_EN ?? '')}
+                  price={eventTicketType.cost}
+                  vacancy={eventTicketType.remainingVacancies}
+                  value={eventTicketType.quantity}
+                  onChangeValue={(value) => {
+                    eventTicketType.quantity = value
+                    setEventTicketTypes([...eventTicketTypes])
+                    setTotalFilledVacancies(eventTicketTypes.reduce((previous, current) => previous + current.quantity, 0))
+                  }}
                 />
               ))
             }
@@ -255,7 +240,7 @@ export function EventDetail() {
                 {t("Total")}
               </Title>
               <Total>
-                R$ {totalValue.toFixed(2)}
+                {totalValue > 0 ? `R$ ${totalValue.toFixed(2)}` : t("GRATUITO")}
               </Total>
             </Group>
 
