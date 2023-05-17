@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 // import SkeletonContent from 'react-native-skeleton-content'
-import { Dimensions, View } from 'react-native'
+import { Alert, Dimensions, View } from 'react-native'
+import moment from 'moment';
 
 import {
   Container,
@@ -57,7 +58,6 @@ export function EventDetail() {
     return tDynamic(pt, en, lang);
   };
 
-
   function changeDate(date: string) {
     let dateEvent = new Date(date)
 
@@ -106,26 +106,24 @@ export function EventDetail() {
   }
 
   async function handleReserveEvent() {
-    navigation.navigate('EventReserve', {
-      id: event.id,
-      title: event.title,
-      subtitle: event.subTitle,
-      date: eventDate,
-      // forms: [
-      //   {
-      //     id: '1',
-      //     type: 0,
-      //     title: t('Associado Adulto'),
-      //     value: associateAdultValue
-      //   }
-      // ],
-      forms: eventTicketTypes,
-      hasName: event.hasName,
-      hasRg: event.hasRg,
-      hasBirthDate: event.hasBirthDate,
-      hasCellphone: event.hasCellphone,
-      hasRegister: event.hasRegister,
-    })
+    if (totalFilledVacancies > 0) {
+      navigation.navigate('EventReserve', {
+        id: event.id,
+        title: event.title,
+        subtitle: event.subTitle,
+        date: eventDate,
+        forms: eventTicketTypes,
+        hasRg: event.requestDocument,
+        hasBirthDate: event.requestBirthDate,
+        hasCellphone: event.requestCell,
+        documentRequired: event.documentRequired,
+        birthDateRequired: event.birthDateRequired,
+        cellRequired: event.cellRequired
+      })
+    }
+    else {
+      Alert.alert(t('Por favor, selecione um tipo de ingresso'))
+    }
   }
 
   useEffect(() => {

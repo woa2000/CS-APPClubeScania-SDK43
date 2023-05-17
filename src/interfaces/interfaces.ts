@@ -100,8 +100,10 @@ interface PaymentModelResult {
   ticketCount: number,
   result: {
     sandboxInitPoint: string,
-    totalPrice: number
-  }
+    totalPrice: number,
+    payable: boolean
+  },
+  modelResult: DetailResult | null
 }
 
 interface ActivitySchedule {
@@ -168,16 +170,19 @@ interface EventReserveProps {
   forms: [
     {
       id: string,
-      type: number
-      title: string,
-      value: number
+      quantity: number,
+      description: string,
+      description_EN: string
     }
   ],
   hasName: boolean,
   hasRg: boolean,
   hasBirthDate: boolean,
   hasCellphone: boolean,
-  hasRegister: boolean
+  hasRegister: boolean,
+  documentRequired: boolean,
+  birthDateRequired: boolean,
+  cellRequired: boolean
 }
 
 interface EventProps {
@@ -220,19 +225,12 @@ interface EventDetailProps {
   vacancies: number,
   remainingVacancies: number,
   totalRemainingVacancies: number,
-  associateAdult: boolean,
-  associateChild: boolean,
-  adult: boolean,
-  child: boolean,
-  costAssociateAdult: number,
-  costAssociateChild: number,
-  costAdult: number,
-  costChild: number,
-  hasName: boolean,
-  hasRg: boolean,
-  hasBirthDate: boolean,
-  hasCellphone: boolean,
-  hasRegister: boolean,
+  requestDocument: boolean,
+  requestBirthDate: boolean,
+  requestCell: boolean,
+  documentRequired: boolean,
+  birthDateRequired: boolean,
+  cellRequired: boolean,
   eventsTicketTypes: EventsTicketTypesProps[] | undefined
 }
 
