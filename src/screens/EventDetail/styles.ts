@@ -18,11 +18,12 @@ export const Description = styled.Text`
   font-size: 14px;
   line-height: 24px;
   margin: 15px 0;
-  text-align: justify;
+  text-align: center;
   font-family: ${theme.fonts.roboto300};
 `
 export const Vacancys = styled.Text`
   font-size: 12px;
+  text-align: center;
   font-family: ${theme.fonts.roboto700};
 `	
 export const Group = styled.View`

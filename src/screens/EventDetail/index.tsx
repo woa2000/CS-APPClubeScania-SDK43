@@ -210,7 +210,7 @@ export function EventDetail() {
             <Vacancys style={{ fontSize: 14 }}>
               {t("Vagas restantes")}
             </Vacancys>
-            <Vacancys>
+            <Vacancys style={{ marginBottom: 15 }}>
               {totalFilledVacancies} / {event.totalRemainingVacancies}
             </Vacancys>
 

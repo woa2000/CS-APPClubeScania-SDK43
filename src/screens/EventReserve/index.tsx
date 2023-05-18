@@ -63,7 +63,7 @@ export function EventReserve() {
         eventID: event.id,
         name: form.name,
         document: form.Rg,
-        birthDate: moment(form.birthDateLabel, 'DD-MM-YYYY').format('YYYY-MM-DD'),
+        birthDate: form.birthDateLabel ? moment(form.birthDateLabel, 'DD-MM-YYYY').format('YYYY-MM-DD') : undefined,
         cell: form.cell,
         requestingUserId: user?.id,
         paid: false
@@ -73,18 +73,13 @@ export function EventReserve() {
     try {
       const response = await eventService.createReservation(formData as any)
       
-      if (response.success) {
-        if (response.result.payable) {
-          navigation.navigate('Payment', { linkPayment: response.result.sandboxInitPoint })
-        }
-        else {
-          Alert.alert('', t('Reserva concluída com sucesso!'), [
-            { text: 'OK', onPress: () => navigation.navigate('Home') }
-          ] as AlertButton[])
-        }
+      if (response.result.payable) {
+        navigation.navigate('Payment', { linkPayment: response.result.sandboxInitPoint })
       }
       else {
-        Alert.alert('', t(`${response.modelResult?.message[0].message as string}`))
+        Alert.alert('', t('Reserva concluída com sucesso!'), [
+          { text: 'OK', onPress: () => navigation.navigate('Events') }
+        ] as AlertButton[])
       }
     } catch (error) {
       Alert.alert(
@@ -112,7 +107,7 @@ export function EventReserve() {
         })
       }
     }
-
+    
     setForms(form)
    
   }, [])
@@ -187,9 +182,6 @@ export function EventReserve() {
           onPress={() => handleSubmit()}
         />
       </Body>
-
-     
     </Container>
   )
 }
-                
