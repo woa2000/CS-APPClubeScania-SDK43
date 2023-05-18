@@ -1,5 +1,7 @@
 import api from '../services/api';
 import {JWT} from '../interfaces/interfaces';
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export function  singInService(username : string, password: string): Promise<JWT> {
   const data = { 
@@ -32,6 +34,7 @@ export function  singInService(username : string, password: string): Promise<JWT
       }) 
     })
     .catch((err) => {
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
       resolve({
         token : null,
         user: null,

@@ -1,5 +1,7 @@
 import api from './api'
 import { JWT } from '../interfaces/interfaces'
+import { Alert } from 'react-native'
+import { t } from 'i18next'
 
 export function RegisterService(
   username: string, 
@@ -7,18 +9,18 @@ export function RegisterService(
   email: string, 
   birthDate: string
   ) : Promise<JWT> {
-    const data = {
-      cpf: username,
-      birthdate: birthDate,
-      email: email,
-      password: password
-    }
-    console.log(data)
-    return new Promise(resolve => {
-      api.post('auth/register', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+  const data = {
+    cpf: username,
+    birthdate: birthDate,
+    email: email,
+    password: password
+  }
+  console.log(data)
+  return new Promise(resolve => {
+    api.post('auth/register', data, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
     .then(response => {
       const data = response.data as JWT
@@ -36,8 +38,8 @@ export function RegisterService(
         error: data.error
       })
     })
-
     .catch((err) => {
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
       resolve({
           token : null,
           user: null,

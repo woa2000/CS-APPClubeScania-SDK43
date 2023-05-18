@@ -1,4 +1,6 @@
+import { Alert } from 'react-native';
 import api from './api'
+import { t } from 'i18next';
 
 export function editProfileImage(userId: string, image: any) {
   
@@ -16,6 +18,7 @@ export function editProfileImage(userId: string, image: any) {
       resolve(response.data)
     })
     .catch((err) => {
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
       resolve(err.response.data)
     });
   })
@@ -30,10 +33,10 @@ export function removeProfile(userId: string) {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
-
 
 export function editLanguage(userId: string | undefined,  language: string) {
   return new Promise(resolve => {
@@ -44,6 +47,7 @@ export function editLanguage(userId: string | undefined,  language: string) {
     })
     .catch((err) => {
       console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
       resolve(err.response.data)
     });
   })

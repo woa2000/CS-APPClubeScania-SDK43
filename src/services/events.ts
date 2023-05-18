@@ -15,6 +15,7 @@ export function getActiveEvents() : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -29,6 +30,7 @@ export function getEvent(id: string) : Promise<Event> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -43,6 +45,7 @@ export function getLastEvents() : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -57,6 +60,7 @@ export function getEventsByUserId(userId: string) : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -69,9 +73,9 @@ export function createReservation(formData: FormProps) : Promise<PaymentModelRes
       resolve(data)
     })
     .catch((err) => {
-      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
