@@ -47,8 +47,10 @@ export function EventReserve() {
   const params = route.params as EventReserveProps
   const [event, setEvent] = useState({} as EventReserveProps)
   const [forms, setForms] = useState<FormProps[]>([] as FormProps[])
+  const [submitEnabled, setSubmitEnabled] = useState(true)
+  const [submitLoading, setSubmitLoading] = useState(false)
 
-   const {t, i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
   const tDynamic = useTrasnlactionDynamic;
   const td = (pt : string, en: string) => {
     let lang = i18n.language;
@@ -57,6 +59,9 @@ export function EventReserve() {
 
 
   async function handleSubmit() {
+    setSubmitEnabled(false)
+    setSubmitLoading(true)
+
     const formData = forms.map(form => {
       return {
         eventsTicketTypeId: form.typeId,
@@ -87,6 +92,9 @@ export function EventReserve() {
         t('Ocorreu um erro ao realizar sua reserva, tente novamente mais tarde.')
       )
     }
+
+    setSubmitEnabled(true)
+    setSubmitLoading(false)
   }
 
   useEffect(() => {
@@ -180,6 +188,8 @@ export function EventReserve() {
         <ButtonStandard 
           title={t("Reservar")}
           onPress={() => handleSubmit()}
+          enabled={submitEnabled}
+          loading={submitLoading}
         />
       </Body>
     </Container>
