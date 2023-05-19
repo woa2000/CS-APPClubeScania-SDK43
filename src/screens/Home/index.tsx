@@ -148,7 +148,7 @@ export function Home() {
         <View style={styles.containerCards}>
           <View style={styles.titleAndButton}>
             <Text style={styles.title}>{t("Populares para você")}</Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Activitys', { type: '1', title: 'Atividades' })}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Activitys', { title: 'Atividades' })}>
               <Text style={styles.buttonText}>{t("Todas as atividades")}</Text>
               <Feather name="chevron-right" size={15} color="#6E8CA0ff" />
             </TouchableOpacity>
