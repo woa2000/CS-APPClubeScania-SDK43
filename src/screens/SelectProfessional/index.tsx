@@ -154,6 +154,7 @@ export function SelectProfessional() {
       > */}
         <BannerActivity 
             urlImage={fileServer + activity.image}
+            icon={activity.icon}
             title={td(activity.description, activity.description_EN)}
             isLiked={activity.isLiked}
             handleLikeActivity={() => handleLikeActivity(

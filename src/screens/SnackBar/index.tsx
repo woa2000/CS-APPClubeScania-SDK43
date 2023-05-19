@@ -134,6 +134,8 @@ export function SnackBar() {
             <BannerPromotion 
               title={td(dishOfDay.title, dishOfDay.title_EN)}
               urlImage={fileServer + dishOfDay.image}
+              defaultIcon={"coffee"}
+              customIconSize={45}
               subtitle={td(dishOfDay.subtitle, dishOfDay.subtitle_EN)}
               activeOpacity={0.7}
               showButtonBack={true}
@@ -144,6 +146,8 @@ export function SnackBar() {
             <BannerPromotion 
               title={snackBar.name}
               urlImage={fileServer + snackBar.image}
+              defaultIcon={"coffee"}
+              customIconSize={45}
               subtitle={t('Lanchonete')}
               activeOpacity={0.7}
               showButtonBack={true}

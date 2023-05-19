@@ -11,6 +11,8 @@ import {ButtonLike} from '../ButtonLike'
 
 interface Props {
 	icon?: string,
+	defaultIcon?: string,
+	customIconSize?: number,
 	urlImage: string,
 	title: string,
 	showFavorite?: boolean,
@@ -19,14 +21,14 @@ interface Props {
 	handleLikeActivity: () => Promise<boolean>
 }
 
-export function BannerActivity({icon, urlImage, title, showFavorite = true, showIcon=true, isLiked, ...rest}: Props) {
+export function BannerActivity({icon, defaultIcon = 'compass', customIconSize = 40, urlImage, title, showFavorite = true, showIcon=true, isLiked, ...rest}: Props) {
 	const navigation = useNavigation()	
 	const [stateLike, setStateLike] = useState(isLiked)
 	const [loading, setLoading] = useState(false)
 	const validIconNames = Object.keys(FontAwesome.glyphMap) as string[]
 	type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>['name']
 	let iconName: FontAwesomeIconName
-	iconName = ('compass' as FontAwesomeIconName)
+	iconName = (defaultIcon as FontAwesomeIconName)
 	
 	if (icon) {
 		const parts = icon.split(' ');
@@ -66,7 +68,7 @@ export function BannerActivity({icon, urlImage, title, showFavorite = true, show
 								uri={'https://img.icons8.com/color/480/scania.png'}
 								style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }} 
 							/> */}
-							<FontAwesome name={iconName} size={40} color="#d97d54" />
+							<FontAwesome name={iconName} size={customIconSize} color="#d97d54" />
 						</View>
 					) : (
 						<View />

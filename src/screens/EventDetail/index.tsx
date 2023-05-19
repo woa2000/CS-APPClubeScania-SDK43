@@ -192,6 +192,7 @@ export function EventDetail() {
         <View key={event.id}>
           <BannerPromotion
             urlImage={fileServer + event.image}
+            icon={event.icon}
             title={td(event.title, event.title_EN)}
             subtitle={td(event.subTitle, event.subTitle_EN)}
             date={eventDate}

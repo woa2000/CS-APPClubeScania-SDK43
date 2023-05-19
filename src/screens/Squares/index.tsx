@@ -124,6 +124,8 @@ export function Squares() {
       > */}
       <BannerActivity 
         urlImage="https://scania-clube.azurewebsites.net/img/quadras.jpg"
+        defaultIcon={"soccer-ball-o"}
+        customIconSize={35}
         title={t("Quadras")}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}

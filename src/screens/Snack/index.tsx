@@ -111,6 +111,8 @@ export function Snack() {
         <Content key={snack.id}>
           <BannerPromotion
             urlImage={fileServer + snack.image}
+            defaultIcon={"cutlery"}
+            customIconSize={45}
             title={td(snack.title, snack.title_EN)}
             subtitle={td(snack.subtitle, snack.subtitle_EN)}
             activeOpacity={1}

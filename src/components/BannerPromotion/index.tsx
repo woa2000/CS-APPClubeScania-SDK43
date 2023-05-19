@@ -11,6 +11,8 @@ import { useNavigation } from '@react-navigation/native'
 
 type Props = TouchableOpacityProps & {
   icon?: string,
+  defaultIcon?: string,
+  customIconSize?: number,
   urlImage: string,
   title: string,
   subtitle: string | undefined,
@@ -20,6 +22,8 @@ type Props = TouchableOpacityProps & {
 
 export function BannerPromotion({ 
   icon,
+  defaultIcon = 'compass',
+  customIconSize = 70,
   urlImage, 
   title, 
   subtitle, 
@@ -30,7 +34,7 @@ export function BannerPromotion({
   const validIconNames = Object.keys(FontAwesome.glyphMap) as string[]
 	type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>['name']
 	let iconName: FontAwesomeIconName
-	iconName = ('compass' as FontAwesomeIconName)
+	iconName = (defaultIcon as FontAwesomeIconName)
 	
 	if (icon) {
 		const parts = icon.split(' ');
@@ -65,7 +69,7 @@ export function BannerPromotion({
             uri={'https://img.icons8.com/color/480/scania.png'}
             style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center' }} 
           /> */}
-          <FontAwesome name={iconName} size={70} color="#d97d54" />
+          <FontAwesome name={iconName} size={customIconSize} color="#d97d54" />
         </View>
         <View>
           {

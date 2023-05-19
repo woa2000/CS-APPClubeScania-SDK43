@@ -92,6 +92,8 @@ export function SnackBarItems() {
       > */}
       <BannerActivity 
         urlImage="https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg"
+        defaultIcon={"coffee"}
+        customIconSize={35}
         title={t("Lanchonete")}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}

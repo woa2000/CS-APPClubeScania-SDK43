@@ -125,6 +125,8 @@ export function Kiosks() {
       <BannerActivity 
         urlImage="https://scania-clube.azurewebsites.net/img/quiosques.jpg"
         title={t("Quiosques")}
+        defaultIcon={"tree"}
+        customIconSize={35}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}
       />

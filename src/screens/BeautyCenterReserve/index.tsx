@@ -217,6 +217,9 @@ export function BeautyCenterReserve() {
         <Content>
           <BannerActivity 
             urlImage={fileServer + activity.image}
+            icon={activity.icon}
+            defaultIcon={"cut"}
+            customIconSize={35}
             title={td(activity.description, activity.description_EN)}
             isLiked={activity.isLiked}
             handleLikeActivity={() => handleLikeActivity(
