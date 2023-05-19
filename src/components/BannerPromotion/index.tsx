@@ -1,27 +1,25 @@
 import React from 'react'
-import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons'
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { View, Text } from 'react-native'
 import { Image } from 'react-native-expo-image-cache'
 import { BlurView } from 'expo-blur'
-
-import ScaniaLogo from "../../assets/scania-logo.png";
 
 import { styles } from './styles'
 import { TouchableOpacity, TouchableOpacityProps } from 'react-native'
 import { ButtonBack } from '../ButtonBack'
 import { useNavigation } from '@react-navigation/native'
 
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-
 type Props = TouchableOpacityProps & {
+  icon?: string,
   urlImage: string,
   title: string,
   subtitle: string | undefined,
   date?: string,
-  showButtonBack?: boolean,
+  showButtonBack?: boolean
 }
 
 export function BannerPromotion({ 
+  icon,
   urlImage, 
   title, 
   subtitle, 
@@ -29,7 +27,21 @@ export function BannerPromotion({
   showButtonBack = false,
   ...rest } : Props) {
   const navigation = useNavigation()
-
+  const validIconNames = Object.keys(FontAwesome.glyphMap) as string[]
+	type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>['name']
+	let iconName: FontAwesomeIconName
+	iconName = ('compass' as FontAwesomeIconName)
+	
+	if (icon) {
+		const parts = icon.split(' ');
+		if (parts.length > 1) {
+			icon = parts[1].replace('fa-', '')
+			if (validIconNames.includes(icon)) {
+				iconName = icon as FontAwesomeIconName
+			}
+    }
+	}
+  
   return (
     <TouchableOpacity {...rest} style={styles.container}>
       <Image 
@@ -53,7 +65,7 @@ export function BannerPromotion({
             uri={'https://img.icons8.com/color/480/scania.png'}
             style={{ width: 50, height: 50, justifyContent: 'center', alignItems: 'center' }} 
           /> */}
-          <FontAwesome name="compass" size={70} color="#d97d54" />
+          <FontAwesome name={iconName} size={70} color="#d97d54" />
         </View>
         <View>
           {

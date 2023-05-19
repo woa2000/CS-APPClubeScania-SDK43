@@ -43,6 +43,7 @@ interface Activity{
   description: string,
   description_EN: string,
   image: string,
+  icon: string,
   isLiked: boolean,
   subtitle?: string,
   needAppointments?: boolean,

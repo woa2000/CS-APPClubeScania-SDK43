@@ -231,6 +231,7 @@ export function ActivityReserve() {
       > */}
         <ScrollView>
           <BannerActivity 
+            icon={activity.icon}
             urlImage={fileServer + activity.image}
             title={td(activity.description, activity.description_EN)}
             isLiked={activity.isLiked}

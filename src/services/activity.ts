@@ -41,7 +41,8 @@ export function getActivity(id: string, userid: string): Promise<Activity> {
         description: data.description,
         description_EN: data.description_EN,
         image: data.image,
-        isLiked: data.isLiked,
+        icon: data.icon,
+        isLiked: data.isLiked
       }) 
     })
     .catch((err) => {

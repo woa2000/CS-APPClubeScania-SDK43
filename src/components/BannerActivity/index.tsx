@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import { MaterialCommunityIcons, FontAwesome, Entypo } from '@expo/vector-icons'
-import { RectButton } from 'react-native-gesture-handler'
+import { FontAwesome } from '@expo/vector-icons'
 import { View, Text} from 'react-native'
 import { Image } from 'react-native-expo-image-cache'
 import { BlurView } from 'expo-blur'
@@ -11,20 +10,34 @@ import { useNavigation } from '@react-navigation/native'
 import {ButtonLike} from '../ButtonLike'
 
 interface Props {
-	icon?: string
+	icon?: string,
 	urlImage: string,
 	title: string,
 	showFavorite?: boolean,
 	showIcon?: boolean,
 	isLiked?: boolean,
-	handleLikeActivity: () => Promise<boolean>,
+	handleLikeActivity: () => Promise<boolean>
 }
 
-export function BannerActivity({ icon, urlImage, title, showFavorite = true, showIcon=true, isLiked, ...rest}: Props) {
+export function BannerActivity({icon, urlImage, title, showFavorite = true, showIcon=true, isLiked, ...rest}: Props) {
 	const navigation = useNavigation()	
 	const [stateLike, setStateLike] = useState(isLiked)
 	const [loading, setLoading] = useState(false)
-
+	const validIconNames = Object.keys(FontAwesome.glyphMap) as string[]
+	type FontAwesomeIconName = React.ComponentProps<typeof FontAwesome>['name']
+	let iconName: FontAwesomeIconName
+	iconName = ('compass' as FontAwesomeIconName)
+	
+	if (icon) {
+		const parts = icon.split(' ');
+		if (parts.length > 1) {
+			icon = parts[1].replace('fa-', '')
+			if (validIconNames.includes(icon)) {
+				iconName = icon as FontAwesomeIconName
+			}
+  		}
+	}
+	
 	async function handleLikeActivity() {
 		console.log('like')
 		setLoading(true)
@@ -53,7 +66,7 @@ export function BannerActivity({ icon, urlImage, title, showFavorite = true, sho
 								uri={'https://img.icons8.com/color/480/scania.png'}
 								style={{ width: 30, height: 30, justifyContent: 'center', alignItems: 'center' }} 
 							/> */}
-							<FontAwesome name="compass" size={40} color="#d97d54" />
+							<FontAwesome name={iconName} size={40} color="#d97d54" />
 						</View>
 					) : (
 						<View />
