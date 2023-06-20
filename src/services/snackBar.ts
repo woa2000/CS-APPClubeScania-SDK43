@@ -5,6 +5,8 @@ import {
   SnackBarItemsProps, 
   SnackBarProps,
 } from '../interfaces/interfaces'
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export function getDishOfDay() : Promise<DishOfDayProps>{
   return new Promise(resolve => {
@@ -16,6 +18,7 @@ export function getDishOfDay() : Promise<DishOfDayProps>{
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -30,6 +33,7 @@ export function getCafeteria() : Promise<SnackBarProps> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -44,6 +48,7 @@ export function getUserFavoriteDishes(userId: string) {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -58,6 +63,7 @@ export function getActiveDishesGroup() : Promise<SnackBarItemsProps[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -72,6 +78,7 @@ export function getDish(id: string) : Promise<SnackBarItem> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }

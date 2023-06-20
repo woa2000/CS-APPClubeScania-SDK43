@@ -127,6 +127,8 @@ export function BeautyCenter() {
       <BannerActivity
         title={t("Centro Estético")}
         urlImage="https://scania-clube.azurewebsites.net/img/centro-estetico.jpg"
+        defaultIcon={"cut"}
+        customIconSize={35}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}
       />

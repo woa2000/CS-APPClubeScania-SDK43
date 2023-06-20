@@ -15,16 +15,16 @@ interface Props {
   name?: string
   RG?: string
   phone?: string
-  register?: string
   birthDate?: string
   shownRGField?: boolean
   shownPhoneField?: boolean
-  shownRegisterField?: boolean
   shownBirthDateField?: boolean
+  requiredRg?: boolean
+  requiredBirthDate?: boolean
+  requiredCellphone?: boolean
   onChangeName?: (value: string) => void
   onChangeRG?: (value: string) => void
   onChangePhone?: (value: string) => void
-  onChangeRegister?: (value: string) => void
   onChangeBirthDate?: (value: string) => void
 }
 
@@ -34,17 +34,17 @@ export function FormReserve({
   name,
   RG,
   birthDate,
-  register,
   phone,
   onChangeName,
   onChangeRG,
   onChangeBirthDate,
-  onChangeRegister,
   onChangePhone,
   shownRGField,
   shownPhoneField,
-  shownRegisterField,
   shownBirthDateField,
+  requiredRg,
+  requiredBirthDate,
+  requiredCellphone
 }: Props) {
   
   return (
@@ -63,12 +63,26 @@ export function FormReserve({
       {
         shownRGField ? (
           <>
-            <Label>RG</Label>
+            <Label>Documento {requiredRg ? '(Obrigatório)' : ''}</Label>
             <Input 
               value={RG}
               onChangeText={onChangeRG}
               keyboardType='numeric'
-              maxLength={11}
+              maxLength={14}
+            />
+          </>
+        ) : null
+      }
+
+      {
+        shownPhoneField ? (
+          <>
+            <Label>Celular {requiredCellphone ? '(Obrigatório)' : ''}</Label>
+            <Input 
+              value={phone}
+              onChangeText={onChangePhone}
+              keyboardType='numeric'
+              maxLength={14}
             />
           </>
         ) : null
@@ -77,7 +91,7 @@ export function FormReserve({
       {
         shownBirthDateField ? (
           <>
-            <Label>Data de Nascimento</Label>
+            <Label>Data de Nascimento {requiredBirthDate ? '(Obrigatória)' : ''}</Label>
             <InputDate
               type={'datetime'}
               options={{
@@ -86,35 +100,6 @@ export function FormReserve({
               placeholder={'DD-MM-YYYY'}
               value={birthDate}
               onChangeText={onChangeBirthDate}
-            />
-          </>
-        ) : null
-      }
-
-      {
-        shownRegisterField ? (
-          <>
-            <Label>Registro</Label>
-            <Input 
-              value={register}
-              onChangeText={onChangeRegister}
-              keyboardType='numeric'
-              maxLength={15}
-            />
-          </>
-        ) : null
-      }
-
-      
-      {
-        shownPhoneField ? (
-          <>
-            <Label>Celular</Label>
-            <Input 
-              value={phone}
-              onChangeText={onChangePhone}
-              keyboardType='numeric'
-              maxLength={11}
             />
           </>
         ) : null

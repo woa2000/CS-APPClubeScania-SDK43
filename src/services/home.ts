@@ -1,5 +1,7 @@
 import api from '../services/api';
 import { HomeObj } from '../interfaces/interfaces';
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export function  getHome(userId: string): Promise<HomeObj> {
   return new Promise(resolve => {        
@@ -13,6 +15,7 @@ export function  getHome(userId: string): Promise<HomeObj> {
     })
     .catch((err) => {
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })     
 }

@@ -86,6 +86,8 @@ export function Reserves() {
       <BannerActivity 
         title={t("Espaços")}
         urlImage="https://images.pexels.com/photos/6642497/pexels-photo-6642497.jpeg"
+        defaultIcon={"tree"}
+        customIconSize={35}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}
       />

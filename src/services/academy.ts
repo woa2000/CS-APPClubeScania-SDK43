@@ -4,6 +4,8 @@ import {
   ExerciseProps, 
   SheetTrainingProps 
 } from "../interfaces/interfaces";
+import { Alert } from "react-native";
+import { t } from "i18next";
 
 export function getListSheetClass(userId: string) : Promise<SheetTrainingProps[]> {
   return new Promise(resolve => {
@@ -15,6 +17,7 @@ export function getListSheetClass(userId: string) : Promise<SheetTrainingProps[]
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -29,6 +32,7 @@ export function getSheetClass(id: string) : Promise<ExerciseProps> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     })
   })
 }
@@ -43,6 +47,7 @@ export function getSheetClassByScheduling(id: string) {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     })
   })
 }
@@ -57,6 +62,7 @@ export function getExercise(id: string) : Promise<ExerciseDetailProps> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     })
   })
 }
@@ -73,6 +79,7 @@ export function getSheetClassBySchedulingAndUser(id: string, userId: string) {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     })
   })
 }
@@ -87,6 +94,7 @@ export function updatedClassSheet(scheduleId: string, classSheetId: string) {
     .catch((err) => {
       console.error(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     })
   })
 }

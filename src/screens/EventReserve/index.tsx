@@ -20,24 +20,23 @@ import { ButtonStandard } from '../../components/ButtonStandard'
 import { EventReserveProps } from '../../interfaces/interfaces'
 import { FormReserve } from '../../components/FormReserve'
 import { useAuth } from '../../contexts/auth'
-import { Alert } from 'react-native'
+import { Alert, AlertButton } from 'react-native'
 
 import * as eventService from '../../services/events'
-import { Moment } from 'moment'
 
 import { useTranslation } from 'react-i18next';
 import { useTrasnlactionDynamic } from '../../languages/translateDB';
+import moment from 'moment'
 
 
 interface FormProps {
   id?: string
-  type: number
+  typeId: string
   title?: string
   name: string
   Rg?: string
   birthDateLabel?: string
   birthDate?: string | undefined
-  register?: string
   cell: string
 }
 
@@ -48,8 +47,10 @@ export function EventReserve() {
   const params = route.params as EventReserveProps
   const [event, setEvent] = useState({} as EventReserveProps)
   const [forms, setForms] = useState<FormProps[]>([] as FormProps[])
+  const [submitEnabled, setSubmitEnabled] = useState(true)
+  const [submitLoading, setSubmitLoading] = useState(false)
 
-   const {t, i18n} = useTranslation();
+  const {t, i18n} = useTranslation();
   const tDynamic = useTrasnlactionDynamic;
   const td = (pt : string, en: string) => {
     let lang = i18n.language;
@@ -58,15 +59,17 @@ export function EventReserve() {
 
 
   async function handleSubmit() {
+    setSubmitEnabled(false)
+    setSubmitLoading(true)
+
     const formData = forms.map(form => {
       return {
-        type: form.type,
+        eventsTicketTypeId: form.typeId,
         eventID: event.id,
         name: form.name,
-        Rg: form.Rg,
-        birthDateLabel: form.birthDateLabel,
-        Cellphone: form.cell,
-        register: form.register,
+        document: form.Rg,
+        birthDate: form.birthDateLabel ? moment(form.birthDateLabel, 'DD-MM-YYYY').format('YYYY-MM-DD') : undefined,
+        cell: form.cell,
         requestingUserId: user?.id,
         paid: false
       }
@@ -74,15 +77,24 @@ export function EventReserve() {
     
     try {
       const response = await eventService.createReservation(formData as any)
-      navigation.navigate('Payment', { linkPayment: response.result.sandboxInitPoint })
-
-
+      
+      if (response.result.payable) {
+        navigation.navigate('Payment', { linkPayment: response.result.sandboxInitPoint })
+      }
+      else {
+        Alert.alert('', t('Reserva concluída com sucesso!'), [
+          { text: 'OK', onPress: () => navigation.navigate('Events') }
+        ] as AlertButton[])
+      }
     } catch (error) {
       Alert.alert(
         t('Erro'), 
         t('Ocorreu um erro ao realizar sua reserva, tente novamente mais tarde.')
       )
     }
+
+    setSubmitEnabled(true)
+    setSubmitLoading(false)
   }
 
   useEffect(() => {
@@ -91,20 +103,19 @@ export function EventReserve() {
     let form = []
 
     for (let i = 0; i < params.forms.length; i++) {
-      for(let g = 0; g < params.forms[i].value; g++) {
+      for(let g = 0; g < params.forms[i].quantity; g++) {
         form.push({
           id: params.forms[i].id + g,
-          type: params.forms[i].type,
-          title: params.forms[i].title + ' ' + (g + 1),
+          typeId: params.forms[i].id,
+          title: td(params.forms[i].description, params.forms[i].description_EN) + ' ' + (g + 1),
           name: '',
           Rg: '',
           birthDateLabel: '',
-          register: '',
           cell: '',
         })
       }
     }
-
+    
     setForms(form)
    
   }, [])
@@ -143,13 +154,15 @@ export function EventReserve() {
                 name={form.name}
                 RG={form.Rg}
                 birthDate={form.birthDateLabel}
-                register={form.register}
                 phone={form.cell}
-                type={form.type}
+                type={0}
                 shownRGField={event.hasRg}
                 shownPhoneField={event.hasCellphone}
-                shownRegisterField={event.hasRegister}
                 shownBirthDateField={event.hasBirthDate}
+                requiredRg={event.documentRequired}
+                requiredBirthDate={event.birthDateRequired}
+                requiredCellphone={event.cellRequired}
+
                 onChangeName={(value) => {
                   form.name = value
                   setForms([...forms])
@@ -160,10 +173,6 @@ export function EventReserve() {
                 }}
                 onChangeBirthDate={(value) => {
                   form.birthDateLabel = value
-                  setForms([...forms])
-                }}
-                onChangeRegister={(value) => {
-                  form.register = value
                   setForms([...forms])
                 }}
                 onChangePhone={(value) => {
@@ -177,14 +186,12 @@ export function EventReserve() {
         </Forms>
 
         <ButtonStandard 
-          
           title={t("Reservar")}
           onPress={() => handleSubmit()}
+          enabled={submitEnabled}
+          loading={submitLoading}
         />
       </Body>
-
-     
     </Container>
   )
 }
-                

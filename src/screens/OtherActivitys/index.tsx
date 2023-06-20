@@ -125,6 +125,8 @@ export function OtherActivitys() {
       <BannerActivity 
         urlImage="https://scania-clube.azurewebsites.net/img/outras-atividades.jpg"
         title={t("Outras atividades")}
+        defaultIcon={"puzzle-piece"}
+        customIconSize={35}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}
       />

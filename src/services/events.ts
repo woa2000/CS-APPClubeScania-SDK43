@@ -2,6 +2,8 @@ import api from '../services/api'
 import {
   Event, FormProps, ModelResult, PaymentModelResult
 } from '../interfaces/interfaces'
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export function getActiveEvents() : Promise<Event[]> {
   return new Promise(resolve => {
@@ -13,6 +15,7 @@ export function getActiveEvents() : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -27,6 +30,7 @@ export function getEvent(id: string) : Promise<Event> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -41,6 +45,7 @@ export function getLastEvents() : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -55,6 +60,7 @@ export function getEventsByUserId(userId: string) : Promise<Event[]> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -69,6 +75,7 @@ export function createReservation(formData: FormProps) : Promise<PaymentModelRes
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }

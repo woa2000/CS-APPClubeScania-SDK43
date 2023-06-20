@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute } from '@react-navigation/native'
 // import SkeletonContent from 'react-native-skeleton-content'
-import { Dimensions, View } from 'react-native'
+import { Alert, Dimensions, View } from 'react-native'
+import moment from 'moment';
 
 import {
   Container,
@@ -29,6 +30,14 @@ import { useAuth } from '../../contexts/auth'
 import { useTranslation } from 'react-i18next';
 import { useTrasnlactionDynamic } from '../../languages/translateDB';
 
+interface EventTicketTypesProps {
+  id: string
+  quantity: number
+  cost: number
+  remainingVacancies: number
+  description: string
+  description_EN: string
+}
 
 export function EventDetail() {
   const route = useRoute()
@@ -37,10 +46,8 @@ export function EventDetail() {
   const params = route.params as NavigationParams
   const [loading, setLoading] = useState(true)
   const [totalValue, setTotalValue] = useState(0.00)
-  const [associateAdultValue, setAssociateAdultValue] = useState(0)
-  const [associateChildValue, setAssociateChildValue] = useState(0)
-  const [notAssociateAdultValue, setNotAssociateAdultValue] = useState(0)
-  const [notAssociateChildValue, setNotAssociateChildValue] = useState(0)
+  const [totalFilledVacancies, setTotalFilledVacancies] = useState(0)
+  const [eventTicketTypes, setEventTicketTypes] = useState<EventTicketTypesProps[]>([] as EventTicketTypesProps[])
   const [event, setEvent] = useState<EventDetailProps>({} as EventDetailProps)
   const [eventDate, setEventDate] = useState('')
 
@@ -50,7 +57,6 @@ export function EventDetail() {
     let lang = i18n.language;
     return tDynamic(pt, en, lang);
   };
-
 
   function changeDate(date: string) {
     let dateEvent = new Date(date)
@@ -66,7 +72,24 @@ export function EventDetail() {
   async function loadEvents(id: string) {
     try {
       const response = await eventService.getEvent(id)
-      setEvent(response as EventDetailProps)
+
+      setEvent(() => { 
+        var newState = response as EventDetailProps
+
+        if (newState.eventsTicketTypes) {
+          setEventTicketTypes([...newState.eventsTicketTypes.map(obj => ({
+            id: obj.id,
+            quantity: 0,
+            cost: obj.cost,
+            remainingVacancies: obj.remainingVacancies,
+            description: obj.ticketType?.description,
+            description_EN: obj.ticketType?.description_EN
+          })) as EventTicketTypesProps[]])
+        }
+
+        return newState
+      })
+
       changeDate(response.startEvent)
     }
     catch (error) {
@@ -77,72 +100,43 @@ export function EventDetail() {
   async function sumTotal() {
     if (event?.id !== undefined) {
       setTotalValue(
-        associateAdultValue * event.costAssociateAdult +
-        associateChildValue * event.costAssociateChild +
-        notAssociateAdultValue * event.costAdult +
-        notAssociateChildValue * event.costChild
+        eventTicketTypes?.reduce((previous, current) => previous + (current.quantity * current.cost), 0) ?? 0
       )
     }
   }
 
   async function handleReserveEvent() {
-    navigation.navigate('EventReserve', {
-      id: event.id,
-      title: event.title,
-      subtitle: event.subTitle,
-      date: eventDate,
-      forms: [
-        {
-          id: '1',
-          type: 0,
-          title: t('Associado Adulto'),
-          value: associateAdultValue
-        },
-        {
-          id: '2',
-          type: 1,
-          title: t('Associado Infantil'),
-          value: associateChildValue
-        },
-        {
-          id: '3',
-          type: 2,
-          title: t('Adulto'),
-          value: notAssociateAdultValue
-        },
-        {
-          id: '4',
-          type: 3,
-          title: t('Infantil'),
-          value: notAssociateChildValue
-        }
-      ],
-      hasName: event.hasName,
-      hasRg: event.hasRg,
-      hasBirthDate: event.hasBirthDate,
-      hasCellphone: event.hasCellphone,
-      hasRegister: event.hasRegister,
-    })
+    if (totalFilledVacancies > 0) {
+      navigation.navigate('EventReserve', {
+        id: event.id,
+        title: event.title,
+        subtitle: event.subTitle,
+        date: eventDate,
+        forms: eventTicketTypes,
+        hasRg: event.requestDocument,
+        hasBirthDate: event.requestBirthDate,
+        hasCellphone: event.requestCell,
+        documentRequired: event.documentRequired,
+        birthDateRequired: event.birthDateRequired,
+        cellRequired: event.cellRequired
+      })
+    }
+    else {
+      Alert.alert(t('Por favor, selecione um tipo de ingresso'))
+    }
   }
 
   useEffect(() => {
     loadEvents(params.id as string)
       .then(() => {
-        setLoading(false);
-        sumTotal();
+        setLoading(false)
+        sumTotal()
       })
-  }, [
-
-  ])
+  }, [])
 
   useEffect(() => {
     sumTotal()
-  }, [
-    associateAdultValue,
-    associateChildValue,
-    notAssociateAdultValue,
-    notAssociateChildValue,
-  ])
+  }, [eventTicketTypes])
 
   return (
     <Container>
@@ -198,6 +192,7 @@ export function EventDetail() {
         <View key={event.id}>
           <BannerPromotion
             urlImage={fileServer + event.image}
+            icon={event.icon}
             title={td(event.title, event.title_EN)}
             subtitle={td(event.subTitle, event.subTitle_EN)}
             date={eventDate}
@@ -213,59 +208,28 @@ export function EventDetail() {
               {td(event.description, event.description_EN)}
             </Description>
 
-            {/* <Vacancys style={{ fontSize: 14 }}>
-              {t("Vagas Disponíveis")}
+            <Vacancys style={{ fontSize: 14 }}>
+              {t("Vagas restantes")}
             </Vacancys>
-            <Vacancys>
-              {event.remainingVacancies}
+            <Vacancys style={{ marginBottom: 15 }}>
+              {totalFilledVacancies} / {event.totalRemainingVacancies}
             </Vacancys>
 
             {
-              event.associateAdult ? (
+              eventTicketTypes?.map((eventTicketType) => (
                 <ItemGroupReserve
-                  title={t("Associado Adulto")}
-                  price={event.costAssociateAdult}
-                  vacancy={event.remainingVacancies}
-                  value={associateAdultValue}
-                  onChangeValue={setAssociateAdultValue}
+                  key={eventTicketType.id}
+                  title={td(eventTicketType.description ?? '', eventTicketType.description_EN ?? '')}
+                  price={eventTicketType.cost}
+                  vacancy={eventTicketType.remainingVacancies}
+                  value={eventTicketType.quantity}
+                  onChangeValue={(value) => {
+                    eventTicketType.quantity = value
+                    setEventTicketTypes([...eventTicketTypes])
+                    setTotalFilledVacancies(eventTicketTypes.reduce((previous, current) => previous + current.quantity, 0))
+                  }}
                 />
-              ) : null
-            }
-
-            {
-              event.associateChild ? (
-                <ItemGroupReserve
-                  title={t("Associado Infantil")}
-                  price={event.costAssociateChild}
-                  vacancy={event.remainingVacancies}
-                  value={associateChildValue}
-                  onChangeValue={setAssociateChildValue}
-                />
-              ) : null
-            }
-
-            {
-              event.adult ? (
-                <ItemGroupReserve
-                  title={t("Adulto")}
-                  price={event.costAdult}
-                  vacancy={event.remainingVacancies}
-                  value={notAssociateAdultValue}
-                  onChangeValue={setNotAssociateAdultValue}
-                />
-              ) : null
-            }
-
-            {
-              event.child ? (
-                <ItemGroupReserve
-                  title={t("Infantil")}
-                  price={event.costChild}
-                  vacancy={event.remainingVacancies}
-                  value={notAssociateChildValue}
-                  onChangeValue={setNotAssociateChildValue}
-                />
-              ) : null
+              ))
             }
 
             <Line />
@@ -275,14 +239,14 @@ export function EventDetail() {
                 {t("Total")}
               </Title>
               <Total>
-                R$ {totalValue.toFixed(2)}
+                {totalValue > 0 ? `R$ ${totalValue.toFixed(2)}` : t("GRATUITO")}
               </Total>
             </Group>
 
             <ButtonStandard
               title={t("Eu quero")}
               onPress={() => handleReserveEvent()}
-            /> */}
+            />
           </Information>
         </View>
       {/* </SkeletonContent> */}

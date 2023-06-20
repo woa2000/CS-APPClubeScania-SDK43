@@ -43,6 +43,7 @@ interface Activity{
   description: string,
   description_EN: string,
   image: string,
+  icon: string,
   isLiked: boolean,
   subtitle?: string,
   needAppointments?: boolean,
@@ -100,8 +101,10 @@ interface PaymentModelResult {
   ticketCount: number,
   result: {
     sandboxInitPoint: string,
-    totalPrice: number
-  }
+    totalPrice: number,
+    payable: boolean
+  },
+  modelResult: DetailResult | null
 }
 
 interface ActivitySchedule {
@@ -168,16 +171,19 @@ interface EventReserveProps {
   forms: [
     {
       id: string,
-      type: number
-      title: string,
-      value: number
+      quantity: number,
+      description: string,
+      description_EN: string
     }
   ],
   hasName: boolean,
   hasRg: boolean,
   hasBirthDate: boolean,
   hasCellphone: boolean,
-  hasRegister: boolean
+  hasRegister: boolean,
+  documentRequired: boolean,
+  birthDateRequired: boolean,
+  cellRequired: boolean
 }
 
 interface EventProps {
@@ -219,21 +225,31 @@ interface EventDetailProps {
   description_EN: string,
   vacancies: number,
   remainingVacancies: number,
-  associateAdult: boolean,
-  associateChild: boolean,
-  adult: boolean,
-  child: boolean,
-  costAssociateAdult: number,
-  costAssociateChild: number,
-  costAdult: number,
-  costChild: number,
-  hasName: boolean,
-  hasRg: boolean,
-  hasBirthDate: boolean,
-  hasCellphone: boolean,
-  hasRegister: boolean
+  totalRemainingVacancies: number,
+  requestDocument: boolean,
+  requestBirthDate: boolean,
+  requestCell: boolean,
+  documentRequired: boolean,
+  birthDateRequired: boolean,
+  cellRequired: boolean,
+  eventsTicketTypes: EventsTicketTypesProps[] | undefined
 }
 
+interface EventsTicketTypesProps {
+  id: string,
+  cost: number,
+  filledVacancies: number,
+  quantity: number,
+  quantityVacancies: number,
+  remainingVacancies: number,
+  ticketType: TicketTypeProps | undefined
+}
+
+interface TicketTypeProps {
+  id: string,
+  description: string,
+  description_EN: string
+}
 
 interface SnackBarProps {
   id: string,

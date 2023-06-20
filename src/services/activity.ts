@@ -8,6 +8,8 @@ import {
   ActivitySchedule,
   GraphicData
 } from '../interfaces/interfaces';
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 export function getActivityPage(userId: string, type: string): Promise<ActivityPage> {
   return new Promise(resolve => {        
@@ -23,6 +25,7 @@ export function getActivityPage(userId: string, type: string): Promise<ActivityP
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })     
 }
@@ -38,12 +41,14 @@ export function getActivity(id: string, userid: string): Promise<Activity> {
         description: data.description,
         description_EN: data.description_EN,
         image: data.image,
-        isLiked: data.isLiked,
+        icon: data.icon,
+        isLiked: data.isLiked
       }) 
     })
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })     
 }
@@ -60,6 +65,7 @@ export function getDateActivity(id: string,): Promise<ScheduleDates> {
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })     
 }
@@ -74,6 +80,7 @@ export function getScheduleActivity(id: string, date: string): Promise<ScheduleA
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })     
 }
@@ -97,6 +104,17 @@ export function bookingActivity(id: string): Promise<ModelResult> {
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -112,6 +130,17 @@ export function cancelBookingActivity(id: string): Promise<ModelResult> {
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -125,6 +154,7 @@ export function getScheduledUserActvities(userId: string): Promise<ActivitySched
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -139,6 +169,7 @@ export function getRecordUserSchedules(userId: string): Promise<ActivitySchedule
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -164,6 +195,17 @@ export function likeActivity(id: string, userId: string, isLiked: boolean): Prom
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -177,6 +219,7 @@ export function getGraphUserActivity(userId: string): Promise<GraphicData[]>{
     .catch((err) => {
       console.log(err.response)
       console.error("Ops! ocorreu um erro" + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -191,6 +234,7 @@ export function checkIfNeedsToAcceptRule(activityId: string, userId: string) {
     .catch((err) => {
       console.log(err.response)
       console.error("Ops! ocorreu um erro" + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -199,8 +243,13 @@ export function acceptedOperationRule(userId: string, activityId: string) {
   return new Promise(resolve => {
     api.post(`/Activitys/AcceptedOperatingRule?ActivityId=${activityId}&UserId=${userId}`)
     .then((response) => {
-      const data = response.data;
+      const data = response.data
       resolve(data)
-    })      
+    })
+    .catch((err) => {
+      console.log(err.response)
+      console.error("Ops! ocorreu um erro" + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+    })
   })
 }

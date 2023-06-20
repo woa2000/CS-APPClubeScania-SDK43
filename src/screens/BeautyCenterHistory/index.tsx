@@ -86,6 +86,8 @@ export function BeautyCenterHistory() {
       <BannerActivity 
         title={t("Centro Estético")}
         urlImage="https://images.pexels.com/photos/3985329/pexels-photo-3985329.jpeg"
+        defaultIcon={"cut"}
+        customIconSize={35}
         showFavorite={false}
         handleLikeActivity={() => handleLikeActivity()}
       />

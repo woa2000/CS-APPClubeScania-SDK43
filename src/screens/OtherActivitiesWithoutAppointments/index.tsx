@@ -107,6 +107,7 @@ export function OtherActivitiesWithoutAppointments() {
         <ScrollView>
           <BannerPromotion 
             title={td(activity.description, activity.description_EN)}
+            icon={activity.icon}
             urlImage={fileServer + activity.image}
             subtitle={params.subtitle}
             activeOpacity={0.7}

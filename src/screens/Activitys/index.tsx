@@ -55,7 +55,7 @@ export function Activitys() {
   useEffect(() => {
     const params = route.params as NavigationParams;
     setTitleHeader(params.title as string);
-    loadActivities(params.type as string)
+    loadActivities(params.type ? params.type as string : '')
       .then(() => setLoading(false));
   }, [])
 

@@ -7,6 +7,8 @@ import {
   Professional,
   ScheduleActivity,
 } from '../interfaces/interfaces';
+import { Alert } from 'react-native';
+import { t } from 'i18next';
 
 
 export function getBeautyCenterActivitys(userId: string, type: string) : Promise<ActivityPage> {
@@ -22,6 +24,7 @@ export function getBeautyCenterActivitys(userId: string, type: string) : Promise
     .catch((err) => {
       console.log(err.response)
       console.error('Ops! Ocorreu um erro' + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -36,12 +39,14 @@ export function getBeautyCenterActivityWithLike(id: string, userId: string) : Pr
         description: data.description,
         description_EN: data.description_EN,
         image: data.image,
-        isLiked: data.isLiked,
+        icon: data.icon,
+        isLiked: data.isLiked
       })
     })
     .catch((err) => {
       console.log(err.response)
       console.error('Ops! Ocorreu um erro' + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -56,6 +61,7 @@ export function getProviders(id: string) : Promise<Professional[]> {
     .catch((err) => {
       console.log(err.response)
       console.error('Ops! Ocorreu um erro' + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -70,6 +76,7 @@ export function getSchedulesByProviders(activityId: string, date: string, provid
     .catch((err) => {
       console.log(err.response)
       console.error('Ops! Ocorreu um erro' + err)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
     })
   })
 }
@@ -93,6 +100,17 @@ export function bookingActivity(id: string): Promise<ModelResult> {
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -108,6 +126,17 @@ export function cancelBookingActivity(id: string): Promise<ModelResult> {
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -132,6 +161,17 @@ export function likeActivity(id: string, userId: string, isLiked: boolean): Prom
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
 
@@ -145,6 +185,7 @@ export function getScheduledUserAestheticCenter(userId: string): Promise<BeautyC
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -159,6 +200,7 @@ export function getRecordUserAestheticCenter(userId: string): Promise<BeautyCent
     .catch((err) => {
       console.log(err.response);
       console.error("Ops! ocorreu um erro" + err);
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`));
     });
   })
 }
@@ -175,5 +217,16 @@ export function cancelBookingBeautyCenterReserve(id: string): Promise<ModelResul
         }
       )
     })
+    .catch((err) => {
+      console.log('erro ->', err.response.data)
+      Alert.alert('', t(`${err.response?.data?.modelResult?.message[0].message as string}`))
+      const data = err.response.data as ModelResult;
+      resolve(
+        {
+          success: data.success,
+          modelResult: data.modelResult
+        }
+      )
+    });
   })
 }
