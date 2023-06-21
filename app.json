@@ -2,7 +2,7 @@
   "expo": {
     "name": "Scania Clube",
     "slug": "ScaniaClube",
-    "version": "1.1.12",
+    "version": "1.1.13",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -32,7 +32,7 @@
     },
     "android": {
       "package": "com.rasystem.appclubescania",
-      "versionCode": 21,
+      "versionCode": 22,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
