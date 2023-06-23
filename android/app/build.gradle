@@ -146,7 +146,7 @@ android {
         applicationId 'com.rasystem.appclubescania'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 21
+        versionCode 22
         versionName "1.1.12"
         buildConfigField "boolean", "IS_NEW_ARCHITECTURE_ENABLED", isNewArchitectureEnabled().toString()
 

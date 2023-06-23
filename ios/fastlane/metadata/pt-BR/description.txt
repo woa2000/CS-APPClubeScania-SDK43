@@ -1,4 +1,0 @@
-Aplicativo para associados do Scania Clube agendarem aulas na academia, quadras, centro estético e quiosques.
-Acompanhar os treinos passados pelo Instrutor da Academia 
-Acompanhar as atividades no clube 
-Anexar Exames médicos para atividades
